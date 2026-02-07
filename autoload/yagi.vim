@@ -137,6 +137,7 @@ function! yagi#chat(prompt, line1, line2) abort
     call add(messages, {'role': 'user', 'content': prompt})
   endif
   
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_response'))
 endfunction
@@ -152,6 +153,7 @@ function! yagi#prompt(prompt) abort
   endif
   
   let messages = [{'role': 'user', 'content': prompt}]
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_response'))
 endfunction
@@ -169,6 +171,7 @@ function! yagi#explain(line1, line2) abort
   let prompt .= "\n```" . filetype . "\n" . selection . "\n```"
   
   let messages = [{'role': 'user', 'content': prompt}]
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_response'))
 endfunction
@@ -190,6 +193,7 @@ function! yagi#refactor(line1, line2) abort
   let prompt .= "Return ONLY the refactored code for the selected portion, without markdown formatting or explanations."
   
   let messages = [{'role': 'user', 'content': prompt}]
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_refactor_response', [a:line1, a:line2]))
 endfunction
@@ -242,6 +246,7 @@ function! yagi#comment(line1, line2) abort
   let prompt .= "Return the code with comments added. Use appropriate comment syntax for " . filetype . "."
   
   let messages = [{'role': 'user', 'content': prompt}]
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_response'))
 endfunction
@@ -266,6 +271,7 @@ function! yagi#fix(line1, line2) abort
   let prompt .= "Return ONLY the fixed code for the selected portion, without markdown formatting or explanations."
   
   let messages = [{'role': 'user', 'content': prompt}]
+  redraw
   echo 'Thinking...'
   call s:send_request(messages, function('s:handle_fix_response', [a:line1, a:line2]))
 endfunction
