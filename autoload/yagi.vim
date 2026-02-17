@@ -70,7 +70,7 @@ function! s:send_request(messages, callback) abort
   let l:channel = job_getchannel(l:job)
 
   " Prepend vim mode system message to messages
-  let l:system_msg = {'role': 'system', 'content': 'IMPORTANT: You are controlling vim. You MUST use the "vim" tool for any vim operation (insert text, move cursor, delete, search, etc). Enable autonomous mode: /agent on. Use vim tool with exact arguments. Example: {"action":"insert","args":{"text":"hello","after":true,"new_line":true}}.'}
+  let l:system_msg = {'role': 'system', 'content': 'You are an agent controlling a vim editor. You MUST call the "vim" tool to perform actions. NEVER respond with only text. ALWAYS make a tool call. Do NOT use any tool other than "vim". Available actions: get_buffer, get_cursor, execute, insert, search, replace. For text substitution use "replace" action (generates vim :%s command). The pattern uses vim regex syntax: \< and \> for word boundaries (NOT \b). Example replacing word "bar" with "バー": {"action":"replace","args":{"pattern":"\\<bar\\>","replace":"バー","flags":"g"}}. For arbitrary ex-commands use "execute" with {"command":":cmd"}.'}
   call insert(a:messages, l:system_msg)
 
   let l:request = {
